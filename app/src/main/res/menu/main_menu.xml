@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/exit"
+        android:id="@+id/exitid"
+        >
+
+    </item>
+    <item android:title="@string/delete_a_to_do"
+        android:id="@+id/delete"
+        >
+
+    </item>
+    <item android:title="@string/update_to_do"
+        android:id="@+id/update"
+        >
+
+    </item>
+
+</menu>
