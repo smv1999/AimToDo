@@ -46,5 +46,8 @@ public class SplashscreenActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
 
+    }
 }

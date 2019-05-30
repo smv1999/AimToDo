@@ -38,12 +38,10 @@ import java.util.Date;
 public class HomeActivity extends AppCompatActivity {
 
     DatabaseHelper databaseHelper;
-    Button viewOldData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        viewOldData = findViewById(R.id.viewData);
         databaseHelper = new DatabaseHelper(this);
 
         Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
@@ -53,8 +51,6 @@ public class HomeActivity extends AppCompatActivity {
             //show start activity
 
             startActivity(new Intent(HomeActivity.this, SplashscreenActivity.class));
-            Toast.makeText(HomeActivity.this, "First Run", Toast.LENGTH_LONG)
-                    .show();
         }
 
 
@@ -181,36 +177,6 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
-        viewOldData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Date c = Calendar.getInstance().getTime();
-                SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-                String formattedDate = df.format(c);
-                Cursor data = databaseHelper.showData("TRAVEL");
-                if(data.getCount()==0){
-                    display("Message","No Data Found!");
-                    return;
-                }
-                StringBuffer buffer = new StringBuffer();
-                while(data.moveToNext()){
-                    buffer.append("ID: "+data.getString(0) + " : " + formattedDate +"\n");
-                    buffer.append("TRAVEL: " + data.getString(1)+"\n");
-                    buffer.append("GROCERIES: "+data.getString(2)+"\n");
-                    buffer.append("MOVIES: "+data.getString(3)+"\n");
-                    buffer.append("WORK: "+data.getString(4)+"\n");
-                    buffer.append("FAMILY: "+data.getString(5)+"\n");
-                    buffer.append("PRIVATE: "+data.getString(6)+"\n");
-                    buffer.append("STUDIES: "+data.getString(7)+"\n");
-                    buffer.append("MUSIC: "+data.getString(8)+"\n");
-
-
-                }
-                display("All Stored Data",buffer.toString());
-
-
-            }
-        });
     }
     public void display(String title, String message){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -237,7 +203,8 @@ public class HomeActivity extends AppCompatActivity {
 
       switch (item.getItemId()){
           case R.id.exitid:
-              this.finish();
+//              this.finish();
+              finishAffinity();
               break;
           case R.id.delete:
               final AlertDialog.Builder builderSingle = new AlertDialog.Builder(HomeActivity.this);
@@ -276,22 +243,65 @@ public class HomeActivity extends AppCompatActivity {
               break;
           case R.id.update:
               final AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-              final EditText put1 = new EditText(HomeActivity.this);
-              final EditText put2 = new EditText(HomeActivity.this);
-              LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                      LinearLayout.LayoutParams.MATCH_PARENT,
-                      LinearLayout.LayoutParams.MATCH_PARENT);
-              put1.setLayoutParams(lp);
-              put2.setLayoutParams(lp);
-              builder.setView(put1);
-              builder.setView(put2);
+              LinearLayout layout = new LinearLayout(this);
+              layout.setOrientation(LinearLayout.VERTICAL);
+
+              final EditText id = new EditText(this);
+              id.setHint("ID");
+              layout.addView(id); // Notice this is an add method
+
+              final EditText travel = new EditText(this);
+              travel.setHint("Travel");
+              layout.addView(travel); // Another add method
+
+              final EditText groceries = new EditText(this);
+              groceries.setHint("Groceries");
+              layout.addView(groceries);
+
+              final EditText movies = new EditText(this);
+              movies.setHint("Movies To Watch");
+              layout.addView(movies);
+
+              final EditText work = new EditText(this);
+              work.setHint("Work");
+              layout.addView(work);
+
+              final EditText family = new EditText(this);
+              family.setHint("Travel");
+              layout.addView(family);
+
+              final EditText Private = new EditText(this);
+              Private.setHint("Private");
+              layout.addView(Private);
+
+              final EditText studies = new EditText(this);
+              studies.setHint("Studies");
+              layout.addView(studies);
+
+              final EditText music = new EditText(this);
+              music.setHint("Music");
+              layout.addView(music);
+
+              builder.setView(layout);
               builder.setCancelable(false);
-              builder.setTitle("Enter the ID to update existing to-do:");
+              builder.setTitle("Enter Data:");
               builder.setPositiveButton("okay", new DialogInterface.OnClickListener() {
                   @Override
                   public void onClick(DialogInterface dialog, int which) {
 
-
+                      int temp = id.getText().toString().length();
+                      if (temp > 0) {
+                          boolean update = databaseHelper.updateData(id.getText().toString(), travel.getText().toString(),
+                                  groceries.getText().toString(), movies.getText().toString(),work.getText().toString(),family.getText().toString(),Private.getText().toString()
+                                  ,studies.getText().toString(),music.getText().toString());
+                          if (update == true) {
+                              Toast.makeText(HomeActivity.this, "Successfully Updated to-do!", Toast.LENGTH_LONG).show();
+                          } else {
+                              Toast.makeText(HomeActivity.this, "Something Went Wrong :(.", Toast.LENGTH_LONG).show();
+                          }
+                      } else {
+                          Toast.makeText(HomeActivity.this, "You Must Enter An ID to Update :(.", Toast.LENGTH_LONG).show();
+                      }
 
 
 
@@ -305,6 +315,34 @@ public class HomeActivity extends AppCompatActivity {
               });
               builder.show();
               break;
+
+          case R.id.about:
+              Intent i = new Intent(HomeActivity.this,AboutActivity.class);
+              startActivity(i);
+              break;
+          case R.id.showtodo:
+              Date c = Calendar.getInstance().getTime();
+              SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+              String formattedDate = df.format(c);
+              Cursor data = databaseHelper.showData("TRAVEL");
+              if(data.getCount()==0){
+                  display("Message","No Data Found!");
+              }
+              StringBuffer buffer = new StringBuffer();
+              while(data.moveToNext()){
+                  buffer.append("ID: "+data.getString(0) + " : " + formattedDate +"\n");
+                  buffer.append("TRAVEL: " + data.getString(1)+"\n");
+                  buffer.append("GROCERIES: "+data.getString(2)+"\n");
+                  buffer.append("MOVIES: "+data.getString(3)+"\n");
+                  buffer.append("WORK: "+data.getString(4)+"\n");
+                  buffer.append("FAMILY: "+data.getString(5)+"\n");
+                  buffer.append("PRIVATE: "+data.getString(6)+"\n");
+                  buffer.append("STUDIES: "+data.getString(7)+"\n");
+                  buffer.append("MUSIC: "+data.getString(8)+"\n");
+
+
+              }
+              display("All Stored to-dos",buffer.toString());
           default:
               return super.onOptionsItemSelected(item);
 

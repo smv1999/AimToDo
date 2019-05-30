@@ -64,6 +64,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
          }
 
          }
+    public boolean updateData(String id, String Travel, String Groceries, String Movies, String Work
+          , String Family,  String Private, String Studies, String Music){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL1,id);
+        contentValues.put(COL2,Travel);
+        contentValues.put(COL3,Groceries);
+        contentValues.put(COL4,Movies);
+        contentValues.put(COL5,Work);
+        contentValues.put(COL6,Family);
+        contentValues.put(COL7,Private);
+        contentValues.put(COL8,Studies);
+        contentValues.put(COL9,Music);
+        db.update(TABLE_NAME, contentValues, "ID = ?", new String[] {id});
+        return true;
+    }
 
          public Cursor showData(String colName){
             SQLiteDatabase db = this.getWritableDatabase();

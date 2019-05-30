@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sm1999.aimtodo">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,8 +10,9 @@
         android:roundIcon="@mipmap/todolistimage"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Home.HomeActivity" android:screenOrientation="portrait">
-
+        <activity
+            android:name=".Home.HomeActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,16 +22,31 @@
         <activity
             android:name=".TravelActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".MoviesToWatchActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".GroceriesActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".WorkActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".FamilyActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".PrivateActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".StudiesActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".MusicActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".Home.SplashscreenActivity" android:screenOrientation="portrait">
-
-        </activity>
+        <activity
+            android:name=".MoviesToWatchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GroceriesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".WorkActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FamilyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PrivateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".StudiesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MusicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Home.SplashscreenActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".Home.AboutActivity"></activity>
     </application>
 
 </manifest>
