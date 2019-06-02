@@ -9,6 +9,10 @@ import android.widget.Toast;
 
 import com.example.sm1999.aimtodo.Utils.DatabaseHelper;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class StudiesActivity extends AppCompatActivity {
 
     DatabaseHelper databaseHelper;
@@ -29,8 +33,11 @@ public class StudiesActivity extends AppCompatActivity {
         addNewData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Date c = Calendar.getInstance().getTime();
+                SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+                String formattedDate = df.format(c);
                 String studytodo = newTodo.getText().toString();
-                boolean insertData = databaseHelper.addData("","","","","","",studytodo,"");
+                boolean insertData = databaseHelper.addData("","","","","","",studytodo+" "+formattedDate,"");
 
                 if(insertData){
                     Toast.makeText(StudiesActivity.this, "To-do Successfully stored!", Toast.LENGTH_SHORT).show();

@@ -10,6 +10,10 @@ import android.widget.Toast;
 
 import com.example.sm1999.aimtodo.Utils.DatabaseHelper;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class FamilyActivity extends AppCompatActivity {
     DatabaseHelper databaseHelper;
     Button addNewData;
@@ -28,8 +32,11 @@ public class FamilyActivity extends AppCompatActivity {
         addNewData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Date c = Calendar.getInstance().getTime();
+                SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+                String formattedDate = df.format(c);
                 String familytodo = newTodo.getText().toString();
-                boolean insertData = databaseHelper.addData("","","","",familytodo,"","","");
+                boolean insertData = databaseHelper.addData("","","","",familytodo+" "+formattedDate,"","","");
 
                 if(insertData){
                     Toast.makeText(FamilyActivity.this, "To-do Successfully stored!", Toast.LENGTH_SHORT).show();

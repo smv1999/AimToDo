@@ -321,16 +321,14 @@ public class HomeActivity extends AppCompatActivity {
               startActivity(i);
               break;
           case R.id.showtodo:
-              Date c = Calendar.getInstance().getTime();
-              SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-              String formattedDate = df.format(c);
+
               Cursor data = databaseHelper.showData("TRAVEL");
               if(data.getCount()==0){
                   display("Message","No Data Found!");
               }
               StringBuffer buffer = new StringBuffer();
               while(data.moveToNext()){
-                  buffer.append("ID: "+data.getString(0) + " : " + formattedDate +"\n");
+                  buffer.append("ID: "+data.getString(0)+"\n");
                   buffer.append("TRAVEL: " + data.getString(1)+"\n");
                   buffer.append("GROCERIES: "+data.getString(2)+"\n");
                   buffer.append("MOVIES: "+data.getString(3)+"\n");
